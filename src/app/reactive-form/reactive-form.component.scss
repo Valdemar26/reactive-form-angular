@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, rgb(164, 233, 180) 0%, rgb(221, 212, 179) 50%, rgb(233, 159, 162) 100%);
+  width: 100vw;
+  height: 100vh;
+
+  form {
+    width: 420px;
+    height: auto;
+    padding: 20px;
+    border: 2px solid #f5f8f2;
+    background-color: #fff;
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+
+    .buttons-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px auto;
+    }
+  }
+}

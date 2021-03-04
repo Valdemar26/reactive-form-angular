@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(233,224,233,1) 0%, rgb(170, 190, 221) 50%, rgba(233,224,233,1) 100%);
+  width: 100vw;
+  height: 100vh;
+
+  button {
+    height: 40px;
+    color: #fff;
+  }
+}
