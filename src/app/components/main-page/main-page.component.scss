@@ -6,7 +6,24 @@
   width: 100vw;
   height: 100vh;
 
+  .main-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    mat-checkbox {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+  }
+
   button {
+    width: 200px;
     height: 40px;
     color: #fff;
   }
