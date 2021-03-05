@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { forkJoin, Observable, Subscription } from 'rxjs';
@@ -44,6 +44,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
     console.log(this.dynamicForm.getRawValue());
 
     this.dynamicForm.reset();
+    // TODO remove dynamic fields
   }
 
   public onReset(): void {
@@ -69,6 +70,26 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         this.tickets.removeAt(i);
       }
     }
+  }
+
+  public fillData(): void {
+    this.getDataFromServer();
+
+    const numberOfTickets = 4;
+
+    // TODO rewrite dirty code below
+    setTimeout(() => {
+      for (let i = this.tickets.length; i < numberOfTickets; i++) {
+        for (const name of this.obj.namesList) {
+          this.tickets.push(this.formBuilder.group({
+            name: [name, Validators.required],
+            email: ['', [Validators.required, Validators.email]]
+          }));
+        }
+      }
+    }, 500);
+
+
   }
 
   private initForm(): void {
@@ -98,6 +119,17 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
       console.log('OBJECT: ', this.obj);
     });
+
+    setTimeout(() => this.dynamicForm.patchValue({numberOfTickets: 4}), 0);
+    // onChangeTickets method -> set names and emails
+
+    // setTimeout(() => {
+    //   for (const name of this.obj.namesList) {
+    //     console.log(name);
+    //     this.controls.tickets.push(new FormControl(name, Validators.required));
+    //   }
+    // }, 1500);
+
 
     this.subscription.add(namesAndEmailsSubscription);
   }
