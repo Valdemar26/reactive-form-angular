@@ -1,3 +1,12 @@
 <div class="container">
-  <button mat-raised-button color="primary" (click)="navigateToForm()">Go to Reactive Form!</button>
+
+  <div class="main-page-wrapper">
+    <p>If you want to navigate to Reactive Form - please check checkbox below</p>
+
+    <mat-checkbox #confirmed (change)="switchRobot($event)">I'm not a robot</mat-checkbox>
+
+    <button mat-raised-button color="primary" (click)="navigateToForm()" [disabled]="!confirmed.checked">Go to Reactive Form!</button>
+
+  </div>
+
 </div>

@@ -14,4 +14,7 @@ export class MainPageComponent {
     this.router.navigate(['/reactive-form']);
   }
 
+  public switchRobot(event): void {
+    event.checked ? localStorage.setItem('robot', 'false') : localStorage.setItem('robot', 'true');
+  }
 }

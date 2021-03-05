@@ -13,6 +13,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RequestInterceptor } from './interceptor/request.interceptor';
 
@@ -33,7 +34,8 @@ import { RequestInterceptor } from './interceptor/request.interceptor';
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
