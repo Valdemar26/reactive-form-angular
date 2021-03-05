@@ -10,7 +10,8 @@
     width: 420px;
     height: auto;
     padding: 20px;
-    border: 2px solid #f5f8f2;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 8%);
     background-color: #fff;
 
     .form-row {
@@ -24,6 +25,10 @@
       justify-content: space-between;
       align-items: center;
       margin: 10px auto;
+
+      button {
+        width: 100px;
+      }
     }
   }
 }
