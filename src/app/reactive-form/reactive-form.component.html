@@ -12,7 +12,6 @@
         <mat-option *ngFor="let option of options" [value]="option">{{ option }}</mat-option>
       </mat-select>
 
-      <!-- TODO error validators -->
       <mat-error *ngIf="dynamicForm.controls.numberOfTickets.errors">Choose valid number of tickets</mat-error>
 
     </mat-form-field>
