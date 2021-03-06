@@ -1,4 +1,4 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -11,9 +11,15 @@ export class RequestInterceptor implements HttpInterceptor {
 
     if (request) {
 
-      return next.handle(request).pipe(
+      const authReq = request.clone({
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json'
+        })
+      });
+
+      return next.handle(authReq).pipe(
         tap(
-          () => {console.log('intercepted: ', request); },
+          () => {console.log('intercepted: ', authReq); },
         (error: Error) => {throwError(error); }
         ));
     }

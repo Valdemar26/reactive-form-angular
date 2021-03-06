@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import {forkJoin, Observable, of, Subscription} from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 
-import { ComponentCanDeactivate } from '../../guards/form.guard';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reactive-form',
@@ -152,22 +150,4 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // canDeactivate(component: DirtyComponent): boolean | Observable<boolean> {
-
-    // https://netbasal.com/detect-unsaved-changes-in-angular-forms-75fd8f5f1fa6
-
-    // return component.isDirty$.pipe(
-    //   switchMap((dirty: boolean) => {
-    //     if (dirty === false) {
-    //       return of(true);
-    //     }
-    //   })
-    // );
-    // if (!this.saved){
-    //   return confirm('You have unsaved changes. Are you sure you want to leave this page?');
-    // }
-    // else{
-    //   return true;
-    // }
-  // }
 }
