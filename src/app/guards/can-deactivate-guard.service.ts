@@ -15,7 +15,8 @@ export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate>
   public canDeactivate(
     component: CanComponentDeactivate,
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): any {
+    state: RouterStateSnapshot
+  ): any {
 
       return component.canDeactivate ? component.canDeactivate() : true;
   }
