@@ -57,7 +57,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
   public onChangeTickets(e): void {
 
-    const numberOfTickets = e.value || 0;
+    const numberOfTickets = e.value;
 
     if (this.tickets.length < numberOfTickets) {
 
@@ -72,6 +72,8 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         this.tickets.removeAt(i);
       }
     }
+
+    console.log('FORM: ', this.dynamicForm);
   }
 
   public fillData(): void {
@@ -80,16 +82,18 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
     const numberOfTickets = 4;
 
     // TODO rewrite dirty code below
-    setTimeout(() => {
-      for (let i = this.tickets.length; i < numberOfTickets; i++) {
-        for (const name of this.serverData.namesList) {
-          this.tickets.push(this.formBuilder.group({
-            name: [name, Validators.required],
-            email: ['', [Validators.required, Validators.email]]
-          }));
-        }
-      }
-    }, 500);
+    // angular dynamic form array
+
+    // setTimeout(() => {
+    //   for (let i = this.tickets.length; i < numberOfTickets; i++) {
+    //     for (const name of this.serverData.namesList) {
+    //       this.tickets.push(this.formBuilder.group({
+    //         name: [name, Validators.required],
+    //         email: ['', [Validators.required, Validators.email]]
+    //       }));
+    //     }
+    //   }
+    // }, 500);
 
 
   }
@@ -105,25 +109,23 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
       names = names.map((n) => n.name);
       emails = emails.map((e) => e.email);
 
-      if (names && emails) {
-        this.serverData = {
-          namesList: names,
-          emailsList: emails
-        };
-      }
+      const ticketsList = [
+        {
+          key: 'names',
+          value: names.map((n) => n.name)
+        },
+        {
+          key: 'emails',
+          value: emails.map((e) => e.email)
+        }
+      ];
 
       console.log('OBJECT: ', this.serverData);
+
     });
 
     setTimeout(() => this.dynamicForm.patchValue({numberOfTickets: 4}), 0);
     // onChangeTickets method -> set names and emails
-
-    // setTimeout(() => {
-    //   for (const name of this.serverData.namesList) {
-    //     console.log(name);
-    //     this.controls.tickets.push(new FormControl(name, Validators.required));
-    //   }
-    // }, 1500);
 
 
     this.subscription.add(namesAndEmailsSubscription);
