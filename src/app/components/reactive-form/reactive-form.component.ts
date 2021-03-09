@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -29,7 +28,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient
-    ) {}
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -61,6 +60,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
     const numberOfTickets = e.value || 0;
 
     if (this.tickets.length < numberOfTickets) {
+
       for (let i = this.tickets.length; i < numberOfTickets; i++) {
         this.tickets.push(this.formBuilder.group({
           name: ['', Validators.required],
