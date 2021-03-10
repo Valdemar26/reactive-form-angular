@@ -15,6 +15,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   dynamicForm: FormGroup;
   submitted = false;
   options: number[];
+  numberOfTickets: number;
 
   serverData = {
     namesList: [],
@@ -58,19 +59,21 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   public onChangeTickets(e): void {
 
     const numberOfTickets = e.value;
+    this.numberOfTickets = numberOfTickets;
 
     if (this.tickets.length < numberOfTickets) {
 
-      for (let i = this.tickets.length; i < numberOfTickets; i++) {
+      Array.from(Array(numberOfTickets).keys()).forEach(() => {
         this.tickets.push(this.formBuilder.group({
           name: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]]
         }));
-      }
+      });
     } else {
-      for (let i = this.tickets.length; i >= numberOfTickets; i--) {
-        this.tickets.removeAt(i);
-      }
+
+      const diff = this.tickets.length - numberOfTickets;
+
+      this.tickets.controls.splice(this.tickets.length - diff, diff);
     }
 
     console.log('FORM: ', this.dynamicForm);
@@ -80,22 +83,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
     this.getDataFromServer();
 
     const numberOfTickets = 4;
-
-    // TODO rewrite dirty code below
-    // angular dynamic form array
-
-    // setTimeout(() => {
-    //   for (let i = this.tickets.length; i < numberOfTickets; i++) {
-    //     for (const name of this.serverData.namesList) {
-    //       this.tickets.push(this.formBuilder.group({
-    //         name: [name, Validators.required],
-    //         email: ['', [Validators.required, Validators.email]]
-    //       }));
-    //     }
-    //   }
-    // }, 500);
-
-
+    // TODO find angular dynamic form array
   }
 
   public getDataFromServer(): void {
@@ -104,10 +92,6 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
       this.initNames(),
       this.initEmails()
     ]).subscribe(([names, emails]) => {
-      console.log('namesAndEmailsSubscription: ', names, emails);
-
-      names = names.map((n) => n.name);
-      emails = emails.map((e) => e.email);
 
       const ticketsList = [
         {
@@ -120,13 +104,9 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         }
       ];
 
-      console.log('OBJECT: ', this.serverData);
+      console.log('ticketsList: ', ticketsList);
 
     });
-
-    setTimeout(() => this.dynamicForm.patchValue({numberOfTickets: 4}), 0);
-    // onChangeTickets method -> set names and emails
-
 
     this.subscription.add(namesAndEmailsSubscription);
   }
@@ -155,15 +135,15 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   }
 
   private initNames(): Observable<any> {
-    return this.http.get('https://random-data-api.com/api/name/random_name?size=4');
+    return this.http.get(`https://random-data-api.com/api/name/random_name?size=${this.numberOfTickets}`);
   }
 
   private initEmails(): Observable<any> {
-    return this.http.get('https://random-data-api.com/api/users/random_user?size=4');
+    return this.http.get(`https://random-data-api.com/api/users/random_user?size=${this.numberOfTickets}`);
   }
 
   private initOptions(): void {
-    this.options = [1, 2, 3, 4];
+    this.options = [1, 2, 3, 4, 5, 6, 7, 8];
   }
 
 }
