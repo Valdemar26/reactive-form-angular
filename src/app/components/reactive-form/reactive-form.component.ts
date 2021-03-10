@@ -17,10 +17,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   options: number[];
   numberOfTickets: number;
 
-  serverData = {
-    namesList: [],
-    emailsList: []
-  };
+  ticketsList = [];
 
   unSaved = true;
 
@@ -93,7 +90,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
       this.initEmails()
     ]).subscribe(([names, emails]) => {
 
-      const ticketsList = [
+      this.ticketsList = [
         {
           key: 'names',
           value: names.map((n) => n.name)
@@ -104,7 +101,21 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         }
       ];
 
-      console.log('ticketsList: ', ticketsList);
+      console.log('ticketsList: ', this.ticketsList);
+
+      /* TODO move to separate method 'patchFormValue()' */
+      this.dynamicForm.patchValue({numberOfTickets: 5});
+
+      this.dynamicForm.patchValue({
+        name: 'TEST NAME',
+        email: 'TEST EMAIL'
+      });
+
+      console.log(this.dynamicForm.getRawValue());
+
+      // this.dynamicForm.patchValue({name: 'TEST NAME'});
+      // this.dynamicForm.controls.tickets.controls.forEach((item, index) => console.log('TICKET: ', item, index));
+      // console.log('tickets controls: ', this.dynamicForm.controls.tickets.controls, typeof this.dynamicForm.controls.tickets.controls);
 
     });
 
