@@ -63,6 +63,7 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
     this.numberOfTickets = numberOfTickets;
 
     if (this.tickets.length < numberOfTickets) {
+      this.tickets.clear();
 
       Array.from(Array(numberOfTickets).keys()).forEach(() => {
         this.tickets.push(this.formBuilder.group({
@@ -153,13 +154,16 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
   private patchFormValue(): void {
     this.hideLoader();
 
-    /* TODO move to separate method 'patchFormValue()' */
     this.dynamicForm.patchValue({numberOfTickets: this.numberOfTickets});
 
-    this.dynamicForm.patchValue({
-      name: 'TEST NAME',
-      email: 'TEST EMAIL'
+    this.dynamicForm.controls.tickets.controls.forEach((control) => {
+      control.patchValue({
+        name: 'TEST NAME',
+        email: 'TEST EMAIL'
+      });
+      console.log('control: ', control);
     });
+    // console.log('tickets: ', this.dynamicForm.controls['tickets'].controls);
 
     console.log('getRawValue: ', this.dynamicForm.getRawValue());
 
