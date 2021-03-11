@@ -44,14 +44,13 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
   public onSubmit(): void {
     this.submitted = true;
 
-    console.log(this.dynamicForm.getRawValue());
+    console.log('SUBMIT: ', this.dynamicForm.getRawValue());
 
     this.dynamicForm.reset();
-    // TODO remove dynamic fields
+    this.tickets.controls.splice(0, this.tickets.length);
   }
 
   public onReset(): void {
-    // reset whole form back to initial state
     this.submitted = false;
     this.dynamicForm.reset();
     this.tickets.clear();
@@ -77,15 +76,10 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
 
       this.tickets.controls.splice(this.tickets.length - diff, diff);
     }
-
-    console.log('FORM: ', this.dynamicForm);
   }
 
   public fillData(): void {
     this.getDataFromServer();
-
-    const numberOfTickets = 4;
-    // TODO find angular dynamic form array
   }
 
   public getDataFromServer(): void {
@@ -97,18 +91,7 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
       this.initEmails()
     ]).subscribe(([names, emails]) => {
 
-      this.ticketsList = [
-        {
-          key: 'names',
-          value: names.map((n) => n.name)
-        },
-        {
-          key: 'emails',
-          value: emails.map((e) => e.email)
-        }
-      ];
-
-      console.log('ticketsList: ', this.ticketsList);
+      this.ticketsList = names.map(({name}, index) => ({ name, email: emails[index].email }));
 
       this.patchFormValue();
     });
@@ -156,20 +139,11 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
 
     this.dynamicForm.patchValue({numberOfTickets: this.numberOfTickets});
 
-    this.dynamicForm.controls.tickets.controls.forEach((control) => {
-      control.patchValue({
-        name: 'TEST NAME',
-        email: 'TEST EMAIL'
+    this.tickets.controls.forEach((group, index) => {
+      group.patchValue({
+        name: this.ticketsList[index].name,
+        email: this.ticketsList[index].email
       });
-      console.log('control: ', control);
     });
-    // console.log('tickets: ', this.dynamicForm.controls['tickets'].controls);
-
-    console.log('getRawValue: ', this.dynamicForm.getRawValue());
-
-    // this.dynamicForm.patchValue({name: 'TEST NAME'});
-    // this.dynamicForm.controls.tickets.controls.forEach((item, index) => console.log('TICKET: ', item, index));
-    // console.log('tickets controls: ', this.dynamicForm.controls.tickets.controls, typeof this.dynamicForm.controls.tickets.controls);
   }
-
 }

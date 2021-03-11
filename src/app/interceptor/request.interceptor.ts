@@ -19,7 +19,7 @@ export class RequestInterceptor implements HttpInterceptor {
 
       return next.handle(authReq).pipe(
         tap(
-          () => {console.log('intercepted: ', authReq); },
+          () => {},
         (error: Error) => {throwError(error); }
         ));
     }
