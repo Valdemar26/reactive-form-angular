@@ -17,12 +17,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RequestInterceptor } from './interceptor/request.interceptor';
 
+import { LoaderComponent } from './components/loader/loader-component/loader.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ReactiveFormComponent,
-    MainPageComponent
+    MainPageComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
