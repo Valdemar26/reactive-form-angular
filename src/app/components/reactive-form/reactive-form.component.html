@@ -1,6 +1,6 @@
 <div class="container">
 
-  <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="dynamicForm">
 
     <h2>Dynamic Form</h2>
 
@@ -39,7 +39,7 @@
     </div>
 
     <div class="buttons-wrapper">
-      <button mat-raised-button color="primary" [disabled]="dynamicForm.invalid">Submit</button>
+      <button mat-raised-button color="primary" [disabled]="dynamicForm.invalid" (click)="onSubmit()">Submit</button>
       <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
       <button mat-raised-button color="accent" [disabled]="dynamicForm.controls.numberOfTickets.errors" (click)="fillData()">Fill data</button>
     </div>
