@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
+import { LoaderInitializerComponent } from '../loader/loader-initializer';
+
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
 
 
@@ -10,7 +12,7 @@ import { forkJoin, Observable, of, Subscription } from 'rxjs';
   templateUrl: './reactive-form.component.html',
   styleUrls: ['./reactive-form.component.scss']
 })
-export class ReactiveFormComponent implements OnInit, OnDestroy {
+export class ReactiveFormComponent extends LoaderInitializerComponent implements OnInit, OnDestroy {
 
   dynamicForm: FormGroup;
   submitted = false;
@@ -26,7 +28,9 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.initForm();
@@ -85,6 +89,8 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
   public getDataFromServer(): void {
 
+    this.showLoader();
+
     const namesAndEmailsSubscription = forkJoin([
       this.initNames(),
       this.initEmails()
@@ -103,20 +109,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
       console.log('ticketsList: ', this.ticketsList);
 
-      /* TODO move to separate method 'patchFormValue()' */
-      this.dynamicForm.patchValue({numberOfTickets: 5});
-
-      this.dynamicForm.patchValue({
-        name: 'TEST NAME',
-        email: 'TEST EMAIL'
-      });
-
-      console.log(this.dynamicForm.getRawValue());
-
-      // this.dynamicForm.patchValue({name: 'TEST NAME'});
-      // this.dynamicForm.controls.tickets.controls.forEach((item, index) => console.log('TICKET: ', item, index));
-      // console.log('tickets controls: ', this.dynamicForm.controls.tickets.controls, typeof this.dynamicForm.controls.tickets.controls);
-
+      this.patchFormValue();
     });
 
     this.subscription.add(namesAndEmailsSubscription);
@@ -155,6 +148,24 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
   private initOptions(): void {
     this.options = [1, 2, 3, 4, 5, 6, 7, 8];
+  }
+
+  private patchFormValue(): void {
+    this.hideLoader();
+
+    /* TODO move to separate method 'patchFormValue()' */
+    this.dynamicForm.patchValue({numberOfTickets: this.numberOfTickets});
+
+    this.dynamicForm.patchValue({
+      name: 'TEST NAME',
+      email: 'TEST EMAIL'
+    });
+
+    console.log('getRawValue: ', this.dynamicForm.getRawValue());
+
+    // this.dynamicForm.patchValue({name: 'TEST NAME'});
+    // this.dynamicForm.controls.tickets.controls.forEach((item, index) => console.log('TICKET: ', item, index));
+    // console.log('tickets controls: ', this.dynamicForm.controls.tickets.controls, typeof this.dynamicForm.controls.tickets.controls);
   }
 
 }
