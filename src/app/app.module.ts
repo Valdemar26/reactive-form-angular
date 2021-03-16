@@ -14,10 +14,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { RequestInterceptor } from './interceptor/request.interceptor';
 
 import { LoaderComponent } from './components/loader/loader-component/loader.component';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { LoaderComponent } from './components/loader/loader-component/loader.com
     AppComponent,
     ReactiveFormComponent,
     MainPageComponent,
-    LoaderComponent
+    LoaderComponent,
+    DatepickerComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { LoaderComponent } from './components/loader/loader-component/loader.com
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }

@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { LoaderInitializerComponent } from '../loader/loader-initializer';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
+
+import { LoaderInitializerComponent } from '../loader/loader-initializer';
 
 
 @Component({
@@ -117,6 +119,7 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
 
   private initForm(): void {
     this.dynamicForm = this.formBuilder.group({
+      date: [new Date(), Validators.required],
       numberOfTickets: ['', Validators.required],
       tickets: new FormArray([])
     });
@@ -145,5 +148,9 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
         email: this.ticketsList[index].email
       });
     });
+  }
+
+  public setData(event: MatDatepickerInputEvent<string>): void {
+    this.dynamicForm.patchValue({date: event});
   }
 }
