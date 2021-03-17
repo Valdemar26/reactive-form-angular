@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 import { MatButtonModule } from '@angular/material/button';
 
@@ -21,6 +22,7 @@ import { RequestInterceptor } from './interceptor/request.interceptor';
 import { LoaderComponent } from './components/loader/loader-component/loader.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 
+import { CustomErrorStateMatcher } from './class/custom-error-state-matcher';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     MatDatepickerModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+    { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher }
   ],
   bootstrap: [AppComponent]
 })
