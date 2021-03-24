@@ -66,10 +66,11 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
     if (this.tickets.length < numberOfTickets) {
       this.tickets.clear();
 
-      Array.from(Array(numberOfTickets).keys()).forEach(() => {
+      Array.from(Array(numberOfTickets).keys()).forEach((_, index: number) => {
         this.tickets.push(this.formBuilder.group({
           name: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]]
+          email: ['', [Validators.required, Validators.email]],
+          id:  Math.floor(Math.random() * Date.now())
         }));
       });
     } else {
@@ -152,5 +153,14 @@ export class ReactiveFormComponent extends LoaderInitializerComponent implements
 
   public setData(event: MatDatepickerInputEvent<string>): void {
     this.dynamicForm.patchValue({date: event});
+  }
+
+  public removeTicket(ticket: any): void {
+    const index = this.tickets.controls.findIndex((t) => t.value.id === ticket.value.id);
+    this.tickets.controls.splice(index, 1);
+
+    if (this.tickets.controls.length === 0) {
+      this.onReset();
+    }
   }
 }
