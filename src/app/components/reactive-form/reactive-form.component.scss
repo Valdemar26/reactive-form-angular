@@ -17,12 +17,31 @@
     box-shadow: 0 0 10px rgb(0 0 0 / 8%);
     background-color: #fff;
 
+    .main-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .mat-form-field {
+        width: 180px;
+      }
+    }
+
     @include scroll();
 
     .form-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 10px 1fr 1fr 10px;
       grid-gap: 20px;
+      align-items: center;
+
+      .mat-form-field {
+        width: 160px;
+      }
+
+      svg {
+        cursor: pointer;
+      }
     }
 
     .buttons-wrapper {
